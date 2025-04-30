@@ -22,7 +22,7 @@ export default function HeroSection() {
                 </div>
                 <div className="flex-1 flex items-center justify-center">
                     <Image
-                        src="/hero-section/user.png"
+                        src="/hero-section/user.PNG"
                         width={300}
                         height={300}
                         alt="User"
