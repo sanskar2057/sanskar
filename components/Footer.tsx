@@ -138,11 +138,6 @@ export default function Footer() {
                     <p className="text-[#ABB2BF] text-sm text-center md:text-left">
                         © {currentYear} Sanskar Dhungana. All rights reserved.
                     </p>
-                    <div className="flex items-center gap-2 text-[#ABB2BF] text-sm">
-                        <span>Made with</span>
-                        <Heart className="w-4 h-4 text-red-500 animate-pulse" />
-                        <span>in Nepal</span>
-                    </div>
                 </div>
             </div>
         </footer>
