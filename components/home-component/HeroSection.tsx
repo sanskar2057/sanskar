@@ -1,38 +1,51 @@
 "use client";
+
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { ArrowDown, Download, Github, Linkedin, Mail, Sparkles } from "lucide-react";
+
+const taglines = [
+  "Frontend Developer",
+  "Full Stack Developer",
+  "React / Next.js Engineer",
+];
+
 
 export default function HeroSection() {
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [taglineIndex, setTaglineIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
-  const taglines = ["Full Stack Developer", "Tech Enthusiast"];
 
   useEffect(() => {
     const currentTagline = taglines[taglineIndex];
-    const timeout = setTimeout(() => {
-      if (!isDeleting && currentIndex < currentTagline.length) {
-        setDisplayText((prev) => prev + currentTagline[currentIndex]);
-        setCurrentIndex((prev) => prev + 1);
-      } else if (isDeleting && currentIndex > 0) {
-        setDisplayText((prev) => prev.slice(0, -1));
-        setCurrentIndex((prev) => prev - 1);
-      } else if (isDeleting && currentIndex === 0) {
-        setIsDeleting(false);
-        setTaglineIndex((prev) => (prev + 1) % taglines.length);
-      } else if (currentIndex === currentTagline.length) {
-        setTimeout(() => setIsDeleting(true), 1000);
-      }
-    }, isDeleting ? 50 : 100);
+
+    const timeout = setTimeout(
+      () => {
+        if (!isDeleting && currentIndex < currentTagline.length) {
+          setDisplayText((prev) => prev + currentTagline[currentIndex]);
+          setCurrentIndex((prev) => prev + 1);
+        } else if (isDeleting && currentIndex > 0) {
+          setDisplayText((prev) => prev.slice(0, -1));
+          setCurrentIndex((prev) => prev - 1);
+        } else if (isDeleting && currentIndex === 0) {
+          setIsDeleting(false);
+          setTaglineIndex((prev) => (prev + 1) % taglines.length);
+        } else if (currentIndex === currentTagline.length) {
+          setTimeout(() => setIsDeleting(true), 1200);
+        }
+      },
+      isDeleting ? 45 : 85
+    );
 
     return () => clearTimeout(timeout);
-  }, [currentIndex, taglineIndex, isDeleting, taglines]);
+  }, [currentIndex, taglineIndex, isDeleting]);
 
-  const scrollToContact = () => {
-    const contactSection = document.getElementById("contact");
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: "smooth" });
+  const scrollToSection = (id: string) => {
+    const section = document.getElementById(id);
+
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -45,87 +58,140 @@ export default function HeroSection() {
     document.body.removeChild(link);
   };
 
+  const stats = [
+    { value: "2+", label: "Years Experience" },
+    { value: "10+", label: "Projects Built" },
+    { value: "Full-stack", label: "Frontend + Backend" },
+  ];
+
+  const socials = [
+    {
+      name: "GitHub",
+      link: "https://github.com/sanskar2057",
+      icon: Github,
+    },
+    {
+      name: "LinkedIn",
+      link: "https://www.linkedin.com/in/sanskar-dhungana-317320278/",
+      icon: Linkedin,
+    },
+    {
+      name: "Email",
+      link: "mailto:sanskar2057@gmail.com",
+      icon: Mail,
+    },
+  ];
+
   return (
-    <div className="min-h-[50vh] sm:min-h-[50vh] md:min-h-[60vh] flex items-center relative overflow-hidden">
-      <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center relative z-10 px-4 sm:px-6 lg:px-8">
-        {/* Left Side - Content */}
+    <div className="w-full min-h-[70vh] flex items-center relative overflow-hidden pt-8 sm:pt-10 lg:pt-6">
+      <div className="orbit-wheel w-56 h-56 left-[-110px] top-10 opacity-60" />
+      <div className="orbit-wheel w-28 h-28 right-4 bottom-12 opacity-40" />
+
+      <div className="w-full grid grid-cols-1 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)] gap-10 lg:gap-14 items-center relative z-10 px-4 sm:px-6 lg:px-8">
         <div className="order-2 lg:order-1 text-center lg:text-left animate-fadeIn">
-          <h1 className="text-[28px] sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[44px] font-bold leading-tight">
-            Sanskar is a{" "}
-            <span className="text-[#C778DD] inline-block min-w-[200px] sm:min-w-[250px] text-left">
-              {displayText}
-              <span className="animate-pulse">|</span>
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#C778DD]/40 bg-[#C778DD]/10 px-4 py-2 mb-5">
+            <Sparkles className="w-4 h-4 text-[#C778DD]" />
+            <span className="text-[#ABB2BF] text-xs sm:text-sm">
+              Available for frontend / full-stack opportunities
+            </span>
+          </div>
+
+          <h1 className="text-[34px] sm:text-[44px] md:text-[56px] lg:text-[62px] xl:text-[70px] font-bold leading-[1.05] tracking-tight">
+            <span className="block">Building scalable web products</span>
+            <span className="block">
+              as a{" "}
+              <span className="gradient-text inline-flex items-center h-[2.25em] min-w-[18ch] text-left overflow-hidden">
+                {displayText}
+                <span className="text-[#C778DD] animate-pulse">|</span>
+              </span>
             </span>
           </h1>
-          <p className="text-[#ABB2BF] text-[14px] sm:text-[16px] md:text-[18px] mt-6 sm:mt-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
-            He builds innovative, full-stack solutions that blend cutting-edge technology with practical problem-solving to create meaningful digital experiences.
+
+          <p className="text-[#ABB2BF] text-[15px] sm:text-[17px] md:text-[18px] mt-6 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+            I’m Sanskar Dhungana, a developer from Kathmandu focused on React,
+            Next.js, TypeScript, API-driven dashboards, reusable UI systems, and
+            backend integrations using FastAPI, Node.js, and databases.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 mt-6 sm:mt-8 justify-center lg:justify-start">
+
+          <div className="flex flex-col sm:flex-row gap-4 mt-7 justify-center lg:justify-start">
             <button
-              className="border-2 border-[#C778DD] bg-transparent text-[#C778DD] rounded-md py-3 px-6 hover:bg-[#C778DD] hover:text-white transition-all duration-300 transform hover:scale-105 font-medium hover-glow"
-              onClick={scrollToContact}
+              className="inline-flex items-center justify-center gap-2 bg-[#C778DD] text-white rounded-xl py-3 px-6 hover:bg-[#E0B7FF] transition-all duration-300 hover:scale-105 font-medium hover-glow"
+              onClick={() => scrollToSection("work")}
             >
-              Contact me !!
+              View Work
+              <ArrowDown className="w-4 h-4" />
             </button>
+
             <button
-              className="bg-[#C778DD] text-white rounded-md py-3 px-6 hover:bg-[#E0B7FF] transition-all duration-300 transform hover:scale-105 font-medium hover-glow"
+              className="inline-flex items-center justify-center gap-2 border border-[#C778DD] bg-transparent text-[#C778DD] rounded-xl py-3 px-6 hover:bg-[#C778DD] hover:text-white transition-all duration-300 hover:scale-105 font-medium hover-glow"
               onClick={downloadResume}
             >
+              <Download className="w-4 h-4" />
               Download Resume
             </button>
           </div>
-          {/* Social Media Links */}
-          <div className="flex gap-4 mt-6 justify-center lg:justify-start animate-slideIn">
-            {[
-              { name: "GitHub", link: "https://github.com/sanskar2057", icon: "/social-media/github.svg" },
-              { name: "LinkedIn", link: "https://www.linkedin.com/in/sanskar-dhungana-317320278/", icon: "/social-media/linkedin.svg" },
-              { name: "WhatsApp", link: "https://wa.me/+9779861797766", icon: "/social-media/whatsapp.svg" },
-            ].map((social, index) => (
-              <a
-                key={index}
-                href={social.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full bg-[#C778DD]/20 hover:bg-[#C778DD]/50 transition-all duration-300 hover-glow"
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-8 max-w-2xl mx-auto lg:mx-0">
+            {stats.map((stat) => (
+              <div
+                key={stat.label}
+                className="glass-card rounded-xl p-4 text-center lg:text-left"
               >
-                <Image src={social.icon} width={24} height={24} alt={social.name} className="w-6 h-6" />
-              </a>
-            ))}
-          </div>
-          {/* Skill Progress Bars */}
-          <div className="mt-6 space-y-2 animate-bounceIn">
-            {[
-              { skill: "JavaScript", progress: 90 },
-              { skill: "React", progress: 85 },
-              { skill: "Node.js", progress: 80 },
-            ].map((item, index) => (
-              <div key={index} className="flex items-center gap-4">
-                <span className="text-[#ABB2BF] text-[14px] sm:text-[16px] w-24">{item.skill}</span>
-                <div className="flex-1 bg-[#2D323B] h-2 rounded-full overflow-hidden">
-                  <div
-                    className="bg-[#C778DD] h-full transition-all duration-1000"
-                    style={{ width: `${item.progress}%` }}
-                  ></div>
-                </div>
+                <p className="text-white text-xl font-bold">{stat.value}</p>
+                <p className="text-[#ABB2BF] text-xs mt-1">{stat.label}</p>
               </div>
             ))}
           </div>
-        </div>
-        {/* Right Side - Image and Decorations */}
-        <div className="order-1 lg:order-2 relative flex justify-center lg:justify-end animate-fadeIn">
-          <div className="absolute top-0 right-0 w-16 h-16 sm:w-20 sm:h-20 opacity-50">
-            <Image src="/hero-section/style.svg" width={80} height={80} alt="Style" className="w-full h-full" />
+
+          <div className="flex gap-4 mt-6 justify-center lg:justify-start animate-slideIn">
+            {socials.map((social) => {
+              const Icon = social.icon;
+
+              return (
+                <a
+                  key={social.name}
+                  href={social.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 hover:border-[#C778DD]/70 hover:bg-[#C778DD]/15 flex items-center justify-center transition-all duration-300 hover:-translate-y-1"
+                  aria-label={social.name}
+                >
+                  <Icon className="w-5 h-5 text-[#C778DD]" />
+                </a>
+              );
+            })}
           </div>
-          <div className="relative group">
-            <div className="w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] md:w-[350px] md:h-[350px] lg:w-[320px] lg:h-[320px] xl:w-[380px] xl:h-[380px] relative">
-              <Image
-                src="/hero-section/user.PNG"
-                fill
-                alt="Sanskar Dhungana"
-                className="rounded-2xl object-cover shadow-2xl group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(199,120,221,0.4)] transition-all duration-300"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#C778DD]/20 to-transparent rounded-2xl"></div>
+        </div>
+
+        <div className="order-1 lg:order-2 relative flex justify-center lg:justify-end animate-fadeIn">
+          <div className="relative float-animation">
+            <div className="absolute -inset-5 rounded-[2rem] bg-[#C778DD]/20 blur-3xl" />
+
+            <div className="relative glass-card rounded-[2rem] p-3 sm:p-4">
+              <div className="relative w-[220px] h-[220px] sm:w-[320px] sm:h-[320px] md:w-[380px] md:h-[380px] lg:w-[360px] lg:h-[360px] xl:w-[420px] xl:h-[420px] overflow-hidden rounded-[1.5rem]">
+                <Image
+                  src="/hero-section/user.PNG"
+                  fill
+                  alt="Sanskar Dhungana"
+                  className="object-cover transition-transform duration-500 hover:scale-105"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#15171D]/60 via-transparent to-transparent" />
+              </div>
+
+              <div className="absolute left-5 right-5 bottom-5 rounded-2xl border border-white/10 bg-black/35 backdrop-blur-md p-4">
+                <p className="text-white text-sm font-semibold">
+                  React • Next.js • TypeScript
+                </p>
+                <p className="text-[#ABB2BF] text-xs mt-1">
+                  Dashboards, systems, APIs and scalable UI.
+                </p>
+              </div>
+            </div>
+
+            <div className="absolute -right-3 top-10 rounded-2xl glass-card px-4 py-3 hidden xl:block">
+              <p className="text-[#C778DD] text-xs">Currently building</p>
+              <p className="text-white text-sm font-medium">EMS / FAMIS UIs</p>
             </div>
           </div>
         </div>

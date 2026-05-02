@@ -1,106 +1,182 @@
-"use client"; // Mark as Client Component for potential interactivity
+"use client";
 
 import React from "react";
+import { Building2, GraduationCap, MapPin, Sparkles } from "lucide-react";
 
 export default function AboutSection() {
-    const workExperience = [
-        {
-            company: "Arclogi Pvt Ltd | Dhumbarahi, Kathmandu, Nepal",
-            role: "Full Stack Developer",
-            duration: "05/2025 - Present",
-            details: [
-                "Developing modern web applications using React and Next.js for frontend development.",
-                "Building robust backend systems with FastAPI for high-performance data processing.",
-                "Implementing responsive UI/UX designs with focus on user experience optimization.",
-                "Collaborating with cross-functional teams to deliver scalable software solutions.",
-            ],
-        },
-        {
-            company: "Josan International | Ganganagar, Rajasthan, India (Remote)",
-            role: "Full Stack Developer", 
-            duration: "07/2024 - 04/2025",
-            details: [
-                "Engineered frontend applications with Next.js, delivering seamless and responsive user experiences.",
-                "Designed and optimized backend systems using Node.js and PostgreSQL for efficient data management.",
-                "Developed RESTful APIs and integrated third-party services for enhanced functionality.",
-                "Maintained code quality through testing, debugging, and performance optimization.",
-            ],
-        },
-        {
-            company: "Deerwalk Institute of Technology | Edutech Nepal | Chaurjahari, Rukum (West)",
-            role: "Teaching Fellowship",
-            duration: "11/2024 - 12/2024",
-            details: [
-                "Revitalized school's computer lab by configuring operational systems and proposing solutions for damaged hardware.",
-                "Trained students (grades 6-10) and teachers in computer literacy, emphasizing typing skills and productivity tools (MS Word, PowerPoint).",
-                "Led workshops on troubleshooting and computer usage, boosting digital proficiency in a rural setting.",
-            ],
-        },
-        {
-            company: "Deerwalk Compware | Kathmandu, Bagmati",
-            role: "Full Stack Developer",
-            duration: "12/2023 - 07/2024",
-            details: [
-                "Developed responsive frontend interfaces and robust backend systems, ensuring seamless integration for web applications.",
-                "Collaborated with designers to implement UI/UX designs, optimizing performance across browsers and devices.",
-                "Enhanced Deerwalk Jobs portal (jobs.deerwalktrainingcenter.com) with clean, maintainable code using Next.js and Nest.js.",
-                "Conducted code reviews and debugging to uphold high-quality standards.",
-            ],
-        },
-    ];
+  const workExperience = [
+    {
+      company: "Arclogi Pvt. Ltd.",
+      location: "Dhumbarahi, Kathmandu, Nepal",
+      role: "Full Stack Developer",
+      duration: "May 2025 - Present",
+      details: [
+        "Building enterprise dashboards and internal systems using React, TypeScript, Chakra UI, and API-driven architecture.",
+        "Working on EMS and FAMIS products with attendance, leave, payroll, approval workflows, tenant settings, and responsive admin interfaces.",
+        "Creating reusable UI components, table systems, modals, forms, filters, and frontend state patterns for scalable development.",
+      ],
+    },
+    {
+      company: "Josan International",
+      location: "Ganganagar, Rajasthan, India · Remote",
+      role: "Full Stack Developer",
+      duration: "Jul 2024 - Apr 2025",
+      details: [
+        "Developed frontend applications with Next.js and backend systems with Node.js and PostgreSQL.",
+        "Integrated REST APIs, optimized user flows, and improved frontend responsiveness across devices.",
+        "Worked on production features, debugging, performance improvements, and maintainable code structure.",
+      ],
+    },
+    {
+      company: "Deerwalk Compware",
+      location: "Kathmandu, Nepal",
+      role: "Full Stack Developer",
+      duration: "Dec 2023 - Jul 2024",
+      details: [
+        "Built and improved web applications using Next.js, Nest.js, MongoDB, and TypeScript.",
+        "Contributed to the Deerwalk Jobs Portal with clean UI, backend integration, and production-ready features.",
+        "Collaborated with designers and developers to deliver responsive, maintainable interfaces.",
+      ],
+    },
+    {
+      company: "Deerwalk Institute of Technology / Edutech Nepal",
+      location: "Chaurjahari, Rukum West, Nepal",
+      role: "Teaching Fellowship",
+      duration: "Nov 2024 - Dec 2024",
+      details: [
+        "Taught computer literacy to students and teachers in a rural school environment.",
+        "Configured computer lab systems and supported practical learning with productivity tools.",
+        "Led workshops on troubleshooting, digital skills, and basic computer usage.",
+      ],
+    },
+  ];
 
-    return (
-        <div className="mt-12 sm:mt-16 px-4 sm:px-6 md:px-8 lg:px-0 xl:px-4">
-            {/* Header */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0 mb-6 sm:mb-8">
-                <p className="text-[24px] sm:text-[28px] md:text-[30px] lg:text-[32px] whitespace-nowrap">
-                    <span className="text-[#C778DD]">#</span>about-me
-                </p>
-                <hr className="h-[3px] sm:h-[4px] bg-[#C778DD] border-0 w-full sm:flex-1 sm:mr-8 md:mr-16 lg:mr-32 sm:ml-4 md:ml-6 lg:ml-8 rounded-full" />
-            </div>
+  const quickFacts = [
+    {
+      label: "Location",
+      value: "Kathmandu, Nepal",
+      icon: MapPin,
+    },
+    {
+      label: "Education",
+      value: "Bachelor in Computer Application",
+      icon: GraduationCap,
+    },
+    {
+      label: "Focus",
+      value: "Frontend-heavy full-stack development",
+      icon: Sparkles,
+    },
+  ];
 
-            {/* Main Content */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 xl:gap-12">
-                {/* Left: About Me Paragraph */}
-                <div className="bg-[#2D323B] p-4 sm:p-5 md:p-6 rounded-lg shadow-lg border border-[#C778DD]/50 transform hover:scale-105 transition-transform duration-300 h-fit">
-                    <h2 className="text-white text-[18px] sm:text-[20px] md:text-[22px] lg:text-[24px] font-bold mb-3 sm:mb-4">
-                        Who Am I?
-                    </h2>
-                    <p className="text-[#ABB2BF] text-[14px] sm:text-[15px] md:text-[16px] leading-relaxed">
-                        Hey there! I'm Sanskar Dhungana, a passionate full-stack developer from Kathmandu, Nepal. Armed with a Bachelor's in Computer Application from Deerwalk Institute of Technology, I specialize in building modern web applications using the MERN Stack, Next.js, FastAPI, and cutting-edge technologies.
+  return (
+    <div className="mt-12 sm:mt-16 px-4 sm:px-6 md:px-8 lg:px-0 xl:px-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+        <p className="text-[24px] sm:text-[28px] md:text-[30px] lg:text-[32px] whitespace-nowrap">
+          <span className="text-[#C778DD]">#</span>about
+        </p>
+        <hr className="h-[3px] sm:h-[4px] bg-[#C778DD] border-0 w-full sm:flex-1 sm:mr-8 md:mr-16 lg:mr-32 sm:ml-4 md:ml-6 lg:ml-8 rounded-full" />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-6 lg:gap-8">
+        <div className="space-y-6">
+          <div className="glass-card rounded-2xl p-5 sm:p-6 md:p-8 relative overflow-hidden">
+            <div className="orbit-wheel w-40 h-40 right-[-75px] bottom-[-75px] opacity-50" />
+
+            <p className="text-[#C778DD] text-sm mb-3">Who I am</p>
+
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4 leading-tight">
+              Developer focused on building useful products, not just pretty screens.
+            </h2>
+
+            <p className="text-[#ABB2BF] text-sm sm:text-base leading-relaxed">
+              I’m Sanskar Dhungana, a frontend-focused full-stack developer from
+              Kathmandu. I work mostly with React, Next.js, TypeScript, Chakra UI,
+              FastAPI, Node.js, and databases to build dashboards, business systems,
+              admin panels, and production web applications.
+            </p>
+
+            <p className="text-[#ABB2BF] text-sm sm:text-base leading-relaxed mt-4">
+              My current work includes enterprise systems like employee management,
+              attendance analytics, financial assistance workflows, reusable tables,
+              modals, filters, forms, tenant configuration, and responsive interfaces.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4">
+            {quickFacts.map((fact) => {
+              const Icon = fact.icon;
+
+              return (
+                <div
+                  key={fact.label}
+                  className="bg-[#2D323B]/80 border border-white/10 rounded-2xl p-4 flex items-start gap-4 hover:border-[#C778DD]/70 transition-all duration-300"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-[#C778DD]/15 border border-[#C778DD]/25 flex items-center justify-center shrink-0">
+                    <Icon className="w-5 h-5 text-[#C778DD]" />
+                  </div>
+
+                  <div>
+                    <p className="text-[#ABB2BF] text-xs">{fact.label}</p>
+                    <p className="text-white text-sm sm:text-base font-medium mt-1">
+                      {fact.value}
                     </p>
-                    <p className="text-[#ABB2BF] text-[14px] sm:text-[15px] md:text-[16px] leading-relaxed mt-3">
-                        From developing the Deerwalk Jobs Portal to creating encrypted chat applications, I'm dedicated to turning innovative ideas into reality with clean, efficient code. My journey spans development, system administration, and teaching digital skills in rural Nepal—showcasing my adaptability and commitment to making technology accessible.
-                    </p>
+                  </div>
                 </div>
-
-                {/* Right: Work Experience */}
-                <div className="space-y-4 sm:space-y-5 md:space-y-6">
-                    {workExperience.map((exp, index) => (
-                        <div
-                            key={index}
-                            className="bg-[#2D323B] p-4 sm:p-5 md:p-6 rounded-lg shadow-lg border border-[#C778DD]/50 hover:border-[#C778DD] transition-all duration-300 hover:shadow-xl"
-                        >
-                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-                                <h3 className="text-white text-[16px] sm:text-[17px] md:text-[18px] lg:text-[19px] font-bold">
-                                    {exp.role}
-                                </h3>
-                                <span className="text-[#C778DD] text-[12px] sm:text-[13px] md:text-[14px] font-medium whitespace-nowrap">
-                                    {exp.duration}
-                                </span>
-                            </div>
-                            <p className="text-[#ABB2BF] text-[13px] sm:text-[14px] mb-3 font-medium">
-                                {exp.company}
-                            </p>
-                            <ul className="text-[#ABB2BF] text-[12px] sm:text-[13px] md:text-[14px] list-disc pl-4 space-y-1">
-                                {exp.details.map((detail, idx) => (
-                                    <li key={idx} className="leading-relaxed">{detail}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    ))}
-                </div>
-            </div>
+              );
+            })}
+          </div>
         </div>
-    );
+
+        <div className="relative">
+          <div className="absolute left-5 top-0 bottom-0 w-px bg-gradient-to-b from-[#C778DD] via-[#C778DD]/40 to-transparent hidden sm:block" />
+
+          <div className="space-y-5">
+            {workExperience.map((exp) => (
+              <div
+                key={`${exp.company}-${exp.duration}`}
+                className="relative sm:pl-14"
+              >
+                <div className="absolute left-[13px] top-6 w-4 h-4 rounded-full bg-[#C778DD] shadow-[0_0_20px_rgba(199,120,221,0.8)] hidden sm:block" />
+
+                <div className="bg-[#2D323B]/80 border border-white/10 hover:border-[#C778DD]/70 rounded-2xl p-5 sm:p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <Building2 className="w-4 h-4 text-[#C778DD]" />
+                        <h3 className="text-white text-base sm:text-lg font-bold">
+                          {exp.role}
+                        </h3>
+                      </div>
+
+                      <p className="text-[#ABB2BF] text-sm mt-2">
+                        {exp.company}
+                      </p>
+
+                      <p className="text-[#ABB2BF]/80 text-xs mt-1">
+                        {exp.location}
+                      </p>
+                    </div>
+
+                    <span className="text-[#C778DD] text-xs sm:text-sm border border-[#C778DD]/30 bg-[#C778DD]/10 rounded-full px-3 py-1 whitespace-nowrap w-fit">
+                      {exp.duration}
+                    </span>
+                  </div>
+
+                  <ul className="space-y-2 mt-4">
+                    {exp.details.map((detail) => (
+                      <li key={detail} className="flex gap-2 text-[#ABB2BF] text-sm leading-relaxed">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#C778DD] mt-2 shrink-0" />
+                        <span>{detail}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
