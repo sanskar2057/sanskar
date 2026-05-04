@@ -10,6 +10,7 @@ import AboutSection from "@/components/home-component/AboutSection";
 import ContactSection from "@/components/home-component/ContactSection";
 import TechPlaygroundSection from "@/components/home-component/TechPlaygroundSection";
 import SectionReveal from "@/components/SectionReveal";
+import BlogSection from "@/components/home-component/BlogSection";
 
 export default function Home() {
   const [footerVisible, setFooterVisible] = useState(true);
@@ -54,6 +55,12 @@ export default function Home() {
           <section id="tech-playground" className="py-16 lg:py-20">
             <SectionReveal>
               <TechPlaygroundSection />
+            </SectionReveal>
+          </section>
+
+          <section id="blogs" className="py-16 lg:py-20">
+            <SectionReveal>
+              <BlogSection />
             </SectionReveal>
           </section>
 

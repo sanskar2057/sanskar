@@ -57,6 +57,7 @@ export default function Navbar({
     { id: "home", label: "home" },
     { id: "work", label: "work" },
     { id: "tech-playground", label: "playground" },
+    { id: "blogs", label: "blogs" },
     { id: "skills", label: "skills" },
     { id: "about-me", label: "about" },
     { id: "contact", label: "contact" },
@@ -64,11 +65,10 @@ export default function Navbar({
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
           ? "bg-[#15171D]/85 backdrop-blur-xl border-white/10 shadow-2xl"
           : "bg-transparent border-transparent"
-      } border-b`}
+        } border-b`}
     >
       <nav className="max-w-7xl mx-auto flex items-center justify-between gap-4 px-4 sm:px-6 md:px-8 py-4">
         <button
