@@ -5,6 +5,7 @@
 :root {
   --background: #282C33;
   --foreground: #ffffff;
+  --font-fira-code: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
 @theme inline {

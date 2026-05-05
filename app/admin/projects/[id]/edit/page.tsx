@@ -23,6 +23,7 @@ const emptyValues: ProjectFormValues = {
   highlights: "",
   type: "Professional Work",
   icon: "BriefcaseBusiness",
+  currentlyBuilding: false,
   github: "",
   link: "",
   status: "draft",
@@ -31,6 +32,14 @@ const emptyValues: ProjectFormValues = {
 };
 
 export default function EditProjectPage({ params }: EditProjectPageProps) {
+  return (
+    <ProtectedRoute>
+      <EditProjectContent params={params} />
+    </ProtectedRoute>
+  );
+}
+
+function EditProjectContent({ params }: EditProjectPageProps) {
   const router = useRouter();
   const { toast } = useToast();
 
@@ -64,6 +73,7 @@ export default function EditProjectPage({ params }: EditProjectPageProps) {
           technologies: Array.isArray(data.technologies)
             ? data.technologies.join(", ")
             : "",
+          currentlyBuilding: Boolean(data.currentlyBuilding),
           highlights: Array.isArray(data.highlights)
             ? data.highlights.join(", ")
             : "",
@@ -103,6 +113,7 @@ export default function EditProjectPage({ params }: EditProjectPageProps) {
         title: values.title,
         slug: values.slug,
         description: values.description,
+        currentlyBuilding: values.currentlyBuilding,
         technologies: values.technologies
           .split(",")
           .map((item) => item.trim())
@@ -165,26 +176,24 @@ export default function EditProjectPage({ params }: EditProjectPageProps) {
   };
 
   return (
-    <ProtectedRoute>
-      <main className="min-h-screen bg-portfolio text-white px-4 sm:px-6 lg:px-8 py-10">
-        <div className="mx-auto max-w-6xl">
-          <AdminHeader />
+    <main className="min-h-screen bg-portfolio text-white px-4 sm:px-6 lg:px-8 py-10">
+      <div className="mx-auto max-w-6xl">
+        <AdminHeader />
 
-          {pageLoading ? (
-            <div className="mx-auto max-w-4xl glass-card rounded-2xl p-6">
-              Loading project...
-            </div>
-          ) : (
-            <ProjectForm
-              mode="edit"
-              loading={saving}
-              initialValues={initialValues}
-              onSubmit={handleUpdate}
-              onDelete={handleDelete}
-            />
-          )}
-        </div>
-      </main>
-    </ProtectedRoute>
+        {pageLoading ? (
+          <div className="mx-auto max-w-4xl glass-card rounded-2xl p-6">
+            Loading project...
+          </div>
+        ) : (
+          <ProjectForm
+            mode="edit"
+            loading={saving}
+            initialValues={initialValues}
+            onSubmit={handleUpdate}
+            onDelete={handleDelete}
+          />
+        )}
+      </div>
+    </main>
   );
 }

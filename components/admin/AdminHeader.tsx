@@ -52,6 +52,12 @@ export default function AdminHeader() {
                     Skills
                 </Link>
                 <Link
+                    href="/admin/resume"
+                    className="rounded-xl border border-white/10 px-4 py-2 text-sm hover:border-[#C778DD]/70 transition"
+                >
+                    Resume
+                </Link>
+                <Link
                     href="/"
                     className="rounded-xl border border-white/10 px-4 py-2 text-sm hover:border-[#C778DD]/70 transition"
                 >

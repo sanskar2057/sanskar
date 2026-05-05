@@ -16,7 +16,7 @@ export default function ProtectedRoute({
         if (!loading && !user) {
             router.push("/admin/login");
         }
-    }, [user, loading]);
+    }, [user, loading, router]);
 
     if (loading) return <div className="p-10 text-white">Loading...</div>;
 

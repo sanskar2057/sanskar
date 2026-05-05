@@ -8,6 +8,7 @@ export type ProjectFormValues = {
   slug: string;
   description: string;
   technologies: string;
+  currentlyBuilding: boolean;
   highlights: string;
   type: string;
   icon: string;
@@ -228,7 +229,15 @@ export default function ProjectForm({
           />
           Featured project
         </label>
-
+        <label className="flex items-center gap-3 text-[#ABB2BF]">
+          <input
+            type="checkbox"
+            checked={values.currentlyBuilding}
+            onChange={(e) => updateField("currentlyBuilding", e.target.checked)}
+            className="h-4 w-4 accent-[#C778DD]"
+          />
+          Currently building
+        </label>
         <button
           type="submit"
           disabled={loading}

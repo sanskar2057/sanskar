@@ -2,7 +2,17 @@
 
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { ArrowDown, Download, Github, Linkedin, Mail, Sparkles } from "lucide-react";
+import {
+  ArrowDown,
+  Download,
+  Github,
+  Linkedin,
+  Mail,
+  Sparkles,
+} from "lucide-react";
+import { getPublishedProjects } from "@/lib/projects";
+import { getWorkExperiences } from "@/lib/about";
+import { downloadActiveResume } from "@/lib/resume";
 
 const taglines = [
   "Frontend Developer",
@@ -10,12 +20,31 @@ const taglines = [
   "React / Next.js Engineer",
 ];
 
+const calculateYearsExperience = (startDate: string) => {
+  if (!startDate) return "0+";
+
+  const start = new Date(startDate);
+  const now = new Date();
+
+  const diffYears = now.getFullYear() - start.getFullYear();
+  const hasAnniversaryPassed =
+    now.getMonth() > start.getMonth() ||
+    (now.getMonth() === start.getMonth() && now.getDate() >= start.getDate());
+
+  const years = hasAnniversaryPassed ? diffYears : diffYears - 1;
+
+  return `${Math.max(years, 0)}+`;
+};
 
 export default function HeroSection() {
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [taglineIndex, setTaglineIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const [projectsBuilt, setProjectsBuilt] = useState("0+");
+  const [yearsExperience, setYearsExperience] = useState("0+");
+  const [currentlyBuilding, setCurrentlyBuilding] = useState("EMS / FAMIS UIs");
 
   useEffect(() => {
     const currentTagline = taglines[taglineIndex];
@@ -41,6 +70,42 @@ export default function HeroSection() {
     return () => clearTimeout(timeout);
   }, [currentIndex, taglineIndex, isDeleting]);
 
+  useEffect(() => {
+    const fetchHeroStats = async () => {
+      try {
+        const [projects, experiences] = await Promise.all([
+          getPublishedProjects(),
+          getWorkExperiences(),
+        ]);
+
+        setProjectsBuilt(`${projects.length}+`);
+
+        const sortedExperiences = [...experiences].sort(
+          (a, b) =>
+            new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+        );
+
+        if (sortedExperiences[0]?.startDate) {
+          setYearsExperience(
+            calculateYearsExperience(sortedExperiences[0].startDate)
+          );
+        }
+
+        const buildingProjects = projects
+          .filter((project) => project.currentlyBuilding)
+          .map((project) => project.title);
+
+        if (buildingProjects.length > 0) {
+          setCurrentlyBuilding(buildingProjects.join(" / "));
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchHeroStats();
+  }, []);
+
   const scrollToSection = (id: string) => {
     const section = document.getElementById(id);
 
@@ -49,18 +114,9 @@ export default function HeroSection() {
     }
   };
 
-  const downloadResume = () => {
-    const link = document.createElement("a");
-    link.href = "/resume.pdf";
-    link.download = "Sanskar_Dhungana_Resume.pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   const stats = [
-    { value: "2+", label: "Years Experience" },
-    { value: "10+", label: "Projects Built" },
+    { value: yearsExperience, label: "Years Experience" },
+    { value: projectsBuilt, label: "Projects Built" },
     { value: "Full-stack", label: "Frontend + Backend" },
   ];
 
@@ -124,7 +180,7 @@ export default function HeroSection() {
 
             <button
               className="inline-flex items-center justify-center gap-2 border border-[#C778DD] bg-transparent text-[#C778DD] rounded-xl py-3 px-6 hover:bg-[#C778DD] hover:text-white transition-all duration-300 hover:scale-105 font-medium hover-glow"
-              onClick={downloadResume}
+              onClick={downloadActiveResume}
             >
               <Download className="w-4 h-4" />
               Download Resume
@@ -191,7 +247,9 @@ export default function HeroSection() {
 
             <div className="absolute -right-3 top-10 rounded-2xl glass-card px-4 py-3 hidden xl:block">
               <p className="text-[#C778DD] text-xs">Currently building</p>
-              <p className="text-white text-sm font-medium">EMS / FAMIS UIs</p>
+              <p className="text-white text-sm font-medium">
+                {currentlyBuilding}
+              </p>
             </div>
           </div>
         </div>

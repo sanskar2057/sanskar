@@ -1,7 +1,11 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import CKEditorClient from "@/components/admin/CKEditorClient";
+
+const CKEditorClient = dynamic(() => import("@/components/admin/CKEditorClient"), {
+    ssr: false,
+});
 
 export type WorkExperienceFormValues = {
     company: string;

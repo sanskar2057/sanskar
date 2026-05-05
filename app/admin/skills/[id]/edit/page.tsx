@@ -24,6 +24,14 @@ const emptyValues: SkillFormValues = {
 };
 
 export default function EditSkillPage({ params }: EditSkillPageProps) {
+    return (
+        <ProtectedRoute>
+            <EditSkillContent params={params} />
+        </ProtectedRoute>
+    );
+}
+
+function EditSkillContent({ params }: EditSkillPageProps) {
     const router = useRouter();
     const { toast } = useToast();
 
@@ -138,26 +146,24 @@ export default function EditSkillPage({ params }: EditSkillPageProps) {
     };
 
     return (
-        <ProtectedRoute>
-            <main className="min-h-screen bg-portfolio text-white px-4 py-10">
-                <div className="max-w-6xl mx-auto">
-                    <AdminHeader />
+        <main className="min-h-screen bg-portfolio text-white px-4 py-10">
+            <div className="max-w-6xl mx-auto">
+                <AdminHeader />
 
-                    {pageLoading ? (
-                        <div className="mx-auto max-w-4xl glass-card rounded-2xl p-6">
-                            Loading skill...
-                        </div>
-                    ) : (
-                        <SkillForm
-                            mode="edit"
-                            loading={saving}
-                            initialValues={initialValues}
-                            onSubmit={handleUpdate}
-                            onDelete={handleDelete}
-                        />
-                    )}
-                </div>
-            </main>
-        </ProtectedRoute>
+                {pageLoading ? (
+                    <div className="mx-auto max-w-4xl glass-card rounded-2xl p-6">
+                        Loading skill...
+                    </div>
+                ) : (
+                    <SkillForm
+                        mode="edit"
+                        loading={saving}
+                        initialValues={initialValues}
+                        onSubmit={handleUpdate}
+                        onDelete={handleDelete}
+                    />
+                )}
+            </div>
+        </main>
     );
 }

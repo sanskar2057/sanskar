@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import {
   collection,
@@ -18,11 +18,19 @@ import { useToast } from "@/hooks/use-toast";
 import { SkillGroup } from "@/types/skills";
 
 export default function AdminSkillsPage() {
+  return (
+    <ProtectedRoute>
+      <AdminSkillsContent />
+    </ProtectedRoute>
+  );
+}
+
+function AdminSkillsContent() {
   const [skills, setSkills] = useState<SkillGroup[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
-  const fetchSkills = async () => {
+  const fetchSkills = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -48,7 +56,7 @@ export default function AdminSkillsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
 
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this skill group?")) return;
@@ -75,13 +83,12 @@ export default function AdminSkillsPage() {
 
   useEffect(() => {
     fetchSkills();
-  }, []);
+  }, [fetchSkills]);
 
   return (
-    <ProtectedRoute>
-      <main className="min-h-screen bg-portfolio text-white px-4 py-10">
-        <div className="max-w-6xl mx-auto">
-          <AdminHeader />
+    <main className="min-h-screen bg-portfolio text-white px-4 py-10">
+      <div className="max-w-6xl mx-auto">
+        <AdminHeader />
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
             <div>
@@ -175,8 +182,7 @@ export default function AdminSkillsPage() {
               ))}
             </div>
           )}
-        </div>
-      </main>
-    </ProtectedRoute>
+      </div>
+    </main>
   );
 }

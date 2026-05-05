@@ -13,6 +13,7 @@ export interface Project {
   link?: string;
   status: ProjectStatus;
   featured: boolean;
+  currentlyBuilding?: boolean;
   order: number;
   createdAt?: string;
   updatedAt?: string;

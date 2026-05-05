@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import { useCallback, useEffect, useState } from "react";
 import {
   addDoc,
   collection,
@@ -13,10 +14,13 @@ import {
 } from "firebase/firestore";
 import ProtectedRoute from "@/app/admin/ProtectedRoute";
 import AdminHeader from "@/components/admin/AdminHeader";
-import CKEditorClient from "@/components/admin/CKEditorClient";
 import { db } from "@/lib/firebase";
 import { useToast } from "@/hooks/use-toast";
 import { QuickFact, WorkExperience } from "@/types/about";
+
+const CKEditorClient = dynamic(() => import("@/components/admin/CKEditorClient"), {
+  ssr: false,
+});
 
 type WorkExperienceFormValues = {
   company: string;
@@ -60,6 +64,14 @@ const inputClass =
 const labelClass = "block text-sm text-[#ABB2BF] mb-2";
 
 export default function AdminAboutPage() {
+  return (
+    <ProtectedRoute>
+      <AdminAboutContent />
+    </ProtectedRoute>
+  );
+}
+
+function AdminAboutContent() {
   const { toast } = useToast();
 
   const [experiences, setExperiences] = useState<WorkExperience[]>([]);
@@ -78,7 +90,7 @@ export default function AdminAboutPage() {
   const [savingExperience, setSavingExperience] = useState(false);
   const [savingFact, setSavingFact] = useState(false);
 
-  const fetchAboutData = async () => {
+  const fetchAboutData = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -121,11 +133,11 @@ export default function AdminAboutPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
 
   useEffect(() => {
     fetchAboutData();
-  }, []);
+  }, [fetchAboutData]);
 
   const resetExperienceForm = () => {
     setSelectedExperienceId(null);
@@ -307,10 +319,9 @@ export default function AdminAboutPage() {
   };
 
   return (
-    <ProtectedRoute>
-      <main className="min-h-screen bg-portfolio text-white px-4 py-10">
-        <div className="max-w-6xl mx-auto">
-          <AdminHeader />
+    <main className="min-h-screen bg-portfolio text-white px-4 py-10">
+      <div className="max-w-6xl mx-auto">
+        <AdminHeader />
 
           <div className="mb-8">
             <p className="text-[#C778DD] text-sm mb-2">Admin CMS</p>
@@ -679,8 +690,7 @@ export default function AdminAboutPage() {
               </div>
             </div>
           )}
-        </div>
-      </main>
-    </ProtectedRoute>
+      </div>
+    </main>
   );
 }

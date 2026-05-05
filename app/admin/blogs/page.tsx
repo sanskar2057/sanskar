@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { collection, deleteDoc, doc, getDocs, orderBy, query } from "firebase/firestore";
 import { Edit, Plus, Trash2 } from "lucide-react";
@@ -8,12 +8,22 @@ import { db } from "@/lib/firebase";
 import { Blog } from "@/types/blogs";
 import ProtectedRoute from "@/app/admin/ProtectedRoute";
 import AdminHeader from "@/components/admin/AdminHeader";
+import { useToast } from "@/hooks/use-toast";
 
 export default function AdminBlogsPage() {
+    return (
+        <ProtectedRoute>
+            <AdminBlogsContent />
+        </ProtectedRoute>
+    );
+}
+
+function AdminBlogsContent() {
     const [blogs, setBlogs] = useState<Blog[]>([]);
     const [loading, setLoading] = useState(true);
+    const { toast } = useToast();
 
-    const fetchBlogs = async () => {
+    const fetchBlogs = useCallback(async () => {
         try {
             setLoading(true);
 
@@ -30,29 +40,48 @@ export default function AdminBlogsPage() {
             })) as Blog[];
 
             setBlogs(data);
+        } catch (error) {
+            console.error(error);
+
+            toast({
+                title: "Load failed",
+                description: "Could not load blogs. Please check your Firestore permissions.",
+                variant: "destructive",
+            });
+
+            setBlogs([]);
         } finally {
             setLoading(false);
         }
-    };
+    }, [toast]);
 
     const handleDelete = async (id: string) => {
         const confirmed = confirm("Are you sure you want to delete this blog?");
 
         if (!confirmed) return;
 
-        await deleteDoc(doc(db, "blogs", id));
-        await fetchBlogs();
+        try {
+            await deleteDoc(doc(db, "blogs", id));
+            await fetchBlogs();
+        } catch (error) {
+            console.error(error);
+
+            toast({
+                title: "Delete failed",
+                description: "Could not delete this blog. Please check your permissions.",
+                variant: "destructive",
+            });
+        }
     };
 
     useEffect(() => {
         fetchBlogs();
-    }, []);
+    }, [fetchBlogs]);
 
     return (
-        <ProtectedRoute>
-            <main className="min-h-screen bg-portfolio text-white px-4 sm:px-6 lg:px-8 py-10">
-                <div className="mx-auto max-w-6xl">
-                      <AdminHeader />
+        <main className="min-h-screen bg-portfolio text-white px-4 sm:px-6 lg:px-8 py-10">
+            <div className="mx-auto max-w-6xl">
+                <AdminHeader />
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                         <div>
                             <p className="text-[#C778DD] text-sm mb-2">Admin CMS</p>
@@ -137,6 +166,5 @@ export default function AdminBlogsPage() {
                     )}
                 </div>
             </main>
-        </ProtectedRoute>
     );
 }

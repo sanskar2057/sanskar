@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import {
     collection,
@@ -18,11 +18,19 @@ import { Project } from "@/types/projects";
 import { useToast } from "@/hooks/use-toast";
 
 export default function AdminProjectsPage() {
+    return (
+        <ProtectedRoute>
+            <AdminProjectsContent />
+        </ProtectedRoute>
+    );
+}
+
+function AdminProjectsContent() {
     const [projects, setProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
     const { toast } = useToast();
 
-    const fetchProjects = async () => {
+    const fetchProjects = useCallback(async () => {
         try {
             setLoading(true);
 
@@ -53,7 +61,7 @@ export default function AdminProjectsPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [toast]);
     const handleDelete = async (id: string) => {
         const confirmed = confirm("Are you sure you want to delete this project?");
         if (!confirmed) return;
@@ -81,13 +89,12 @@ export default function AdminProjectsPage() {
 
     useEffect(() => {
         fetchProjects();
-    }, []);
+    }, [fetchProjects]);
 
     return (
-        <ProtectedRoute>
-            <main className="min-h-screen bg-portfolio text-white px-4 sm:px-6 lg:px-8 py-10">
-                <div className="mx-auto max-w-6xl">
-                    <AdminHeader />
+        <main className="min-h-screen bg-portfolio text-white px-4 sm:px-6 lg:px-8 py-10">
+            <div className="mx-auto max-w-6xl">
+                <AdminHeader />
 
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                         <div>
@@ -179,8 +186,7 @@ export default function AdminProjectsPage() {
                             ))}
                         </div>
                     )}
-                </div>
-            </main>
-        </ProtectedRoute>
+            </div>
+        </main>
     );
 }

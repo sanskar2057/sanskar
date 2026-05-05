@@ -7,6 +7,7 @@ import ProtectedRoute from "@/app/admin/ProtectedRoute";
 import BlogForm, { BlogFormValues } from "@/components/admin/BlogForm";
 import { db } from "@/lib/firebase";
 import AdminHeader from "@/components/admin/AdminHeader";
+import { useToast } from "@/hooks/use-toast";
 
 interface EditBlogPageProps {
     params: {
@@ -24,7 +25,16 @@ const emptyValues: BlogFormValues = {
 };
 
 export default function EditBlogPage({ params }: EditBlogPageProps) {
+    return (
+        <ProtectedRoute>
+            <EditBlogContent params={params} />
+        </ProtectedRoute>
+    );
+}
+
+function EditBlogContent({ params }: EditBlogPageProps) {
     const router = useRouter();
+    const { toast } = useToast();
 
     const [initialValues, setInitialValues] = useState<BlogFormValues>(emptyValues);
     const [pageLoading, setPageLoading] = useState(true);
@@ -51,13 +61,23 @@ export default function EditBlogPage({ params }: EditBlogPageProps) {
                     tags: Array.isArray(data.tags) ? data.tags.join(", ") : "",
                     status: data.status || "draft",
                 });
+            } catch (error) {
+                console.error(error);
+
+                toast({
+                    title: "Load failed",
+                    description: "Could not load blog. Please check your permissions.",
+                    variant: "destructive",
+                });
+
+                router.push("/admin/blogs");
             } finally {
                 setPageLoading(false);
             }
         };
 
         fetchBlog();
-    }, [params.id, router]);
+    }, [params.id, router, toast]);
 
     const handleUpdate = async (values: BlogFormValues) => {
         try {
@@ -80,6 +100,14 @@ export default function EditBlogPage({ params }: EditBlogPageProps) {
             });
 
             router.push("/admin/blogs");
+        } catch (error) {
+            console.error(error);
+
+            toast({
+                title: "Update failed",
+                description: "Could not update blog. Please check your permissions.",
+                variant: "destructive",
+            });
         } finally {
             setSaving(false);
         }
@@ -90,28 +118,36 @@ export default function EditBlogPage({ params }: EditBlogPageProps) {
 
         if (!confirmed) return;
 
-        await deleteDoc(doc(db, "blogs", params.id));
-        router.push("/admin/blogs");
+        try {
+            await deleteDoc(doc(db, "blogs", params.id));
+            router.push("/admin/blogs");
+        } catch (error) {
+            console.error(error);
+
+            toast({
+                title: "Delete failed",
+                description: "Could not delete this blog. Please check your permissions.",
+                variant: "destructive",
+            });
+        }
     };
 
     return (
-        <ProtectedRoute>
-            <main className="min-h-screen bg-portfolio text-white px-4 sm:px-6 lg:px-8 py-10">
-                <AdminHeader />
-                {pageLoading ? (
-                    <div className="mx-auto max-w-4xl glass-card rounded-2xl p-6">
-                        Loading blog...
-                    </div>
-                ) : (
-                    <BlogForm
-                        mode="edit"
-                        loading={saving}
-                        initialValues={initialValues}
-                        onSubmit={handleUpdate}
-                        onDelete={handleDelete}
-                    />
-                )}
-            </main>
-        </ProtectedRoute>
+        <main className="min-h-screen bg-portfolio text-white px-4 sm:px-6 lg:px-8 py-10">
+            <AdminHeader />
+            {pageLoading ? (
+                <div className="mx-auto max-w-4xl glass-card rounded-2xl p-6">
+                    Loading blog...
+                </div>
+            ) : (
+                <BlogForm
+                    mode="edit"
+                    loading={saving}
+                    initialValues={initialValues}
+                    onSubmit={handleUpdate}
+                    onDelete={handleDelete}
+                />
+            )}
+        </main>
     );
 }
