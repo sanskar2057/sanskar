@@ -2,13 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Code, Download, Mail, Menu, X } from "lucide-react";
-import { Fira_Code } from "next/font/google";
-
-const firaCode = Fira_Code({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-fira-code",
-});
+import { downloadActiveResume } from "@/lib/resume";
 
 export default function Navbar({
   setFooterVisible,
@@ -44,19 +38,11 @@ export default function Navbar({
     }
   };
 
-  const downloadResume = () => {
-    const link = document.createElement("a");
-    link.href = "/resume.pdf";
-    link.download = "Sanskar_Dhungana_Resume.pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   const navItems = [
     { id: "home", label: "home" },
     { id: "work", label: "work" },
     { id: "tech-playground", label: "playground" },
+    { id: "blogs", label: "blogs" },
     { id: "skills", label: "skills" },
     { id: "about-me", label: "about" },
     { id: "contact", label: "contact" },
@@ -64,11 +50,10 @@ export default function Navbar({
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
           ? "bg-[#15171D]/85 backdrop-blur-xl border-white/10 shadow-2xl"
           : "bg-transparent border-transparent"
-      } border-b`}
+        } border-b`}
     >
       <nav className="max-w-7xl mx-auto flex items-center justify-between gap-4 px-4 sm:px-6 md:px-8 py-4">
         <button
@@ -82,7 +67,7 @@ export default function Navbar({
 
           <div className="text-left">
             <h1
-              className={`${firaCode.className} text-white text-lg sm:text-xl font-bold m-0 leading-none`}
+              className="font-fira-code text-white text-lg sm:text-xl font-bold m-0 leading-none"
             >
               Sanskar
             </h1>
@@ -92,7 +77,7 @@ export default function Navbar({
           </div>
         </button>
 
-        <ul className={`${firaCode.className} hidden lg:flex gap-6 xl:gap-8 list-none m-0 p-0`}>
+        <ul className="font-fira-code hidden lg:flex gap-6 xl:gap-8 list-none m-0 p-0">
           {navItems.map((item) => (
             <li key={item.id}>
               <button
@@ -112,7 +97,7 @@ export default function Navbar({
 
         <div className="hidden lg:flex items-center gap-3">
           <button
-            onClick={downloadResume}
+            onClick={downloadActiveResume}
             className="flex items-center gap-2 bg-white/5 border border-white/10 text-white px-4 py-2.5 rounded-xl hover:border-[#C778DD]/60 hover:bg-[#C778DD]/10 transition-all duration-300 hover:-translate-y-0.5 font-medium text-sm"
           >
             <Download className="w-4 h-4 text-[#C778DD]" />
@@ -144,7 +129,7 @@ export default function Navbar({
       {isMenuOpen && (
         <div className="lg:hidden fixed inset-0 bg-[#15171D]/98 backdrop-blur-xl z-40 overflow-y-auto">
           <div className="flex flex-col items-center justify-center min-h-screen pt-24 pb-8 px-4">
-            <ul className={`${firaCode.className} flex flex-col gap-7 list-none text-center mb-10`}>
+            <ul className="font-fira-code flex flex-col gap-7 list-none text-center mb-10">
               {navItems.map((item) => (
                 <li key={item.id}>
                   <button
@@ -164,7 +149,7 @@ export default function Navbar({
 
             <div className="flex flex-col gap-4 mb-8 w-full max-w-xs">
               <button
-                onClick={downloadResume}
+                onClick={downloadActiveResume}
                 className="flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-white px-6 py-3 rounded-xl hover:border-[#C778DD]/60 hover:bg-[#C778DD]/10 transition-all duration-300 font-medium"
               >
                 <Download className="w-5 h-5 text-[#C778DD]" />

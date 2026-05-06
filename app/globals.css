@@ -5,6 +5,7 @@
 :root {
   --background: #282C33;
   --foreground: #ffffff;
+  --font-fira-code: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
 @theme inline {
@@ -292,4 +293,61 @@ footer {
 
 .card-glow:hover::before {
   opacity: 1;
+}
+
+.portfolio-editor {
+  --ck-color-base-background: #1f232b;
+  --ck-color-base-foreground: #282c33;
+  --ck-color-base-border: rgba(255, 255, 255, 0.12);
+  --ck-color-text: #ffffff;
+  --ck-color-toolbar-background: #20242c;
+  --ck-color-toolbar-border: rgba(255, 255, 255, 0.12);
+  --ck-color-button-default-background: transparent;
+  --ck-color-button-default-hover-background: rgba(199, 120, 221, 0.14);
+  --ck-color-button-on-background: rgba(199, 120, 221, 0.22);
+  --ck-color-button-on-color: #ffffff;
+  --ck-color-list-background: #20242c;
+  --ck-color-list-button-hover-background: rgba(199, 120, 221, 0.14);
+  --ck-color-panel-background: #20242c;
+  --ck-color-panel-border: rgba(255, 255, 255, 0.12);
+  --ck-color-input-background: #15171d;
+  --ck-color-input-border: rgba(255, 255, 255, 0.12);
+  --ck-color-input-text: #ffffff;
+  --ck-color-focus-border: #c778dd;
+}
+
+.portfolio-editor .ck-editor__editable {
+  min-height: 320px;
+  max-height: 520px;
+  overflow-y: auto;
+  padding: 24px !important;
+  color: #abb2bf;
+  background: #1f232b;
+}
+
+.portfolio-editor .ck-content {
+  max-width: 100%;
+}
+
+.portfolio-editor .ck-content p,
+.portfolio-editor .ck-content li,
+.portfolio-editor .ck-content blockquote {
+  color: #abb2bf;
+}
+
+.portfolio-editor .ck-content h1,
+.portfolio-editor .ck-content h2,
+.portfolio-editor .ck-content h3,
+.portfolio-editor .ck-content strong {
+  color: #ffffff;
+}
+
+.portfolio-editor .ck-content a {
+  color: #c778dd;
+}
+
+.portfolio-editor .ck-content img {
+  max-width: 100%;
+  border-radius: 16px;
+  margin: 16px auto;
 }

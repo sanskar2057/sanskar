@@ -3,13 +3,7 @@
 import Link from "next/link";
 import React from "react";
 import { Code, Github, Linkedin, Mail, MessageCircle } from "lucide-react";
-import { Fira_Code } from "next/font/google";
-
-const firaCode = Fira_Code({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-fira-code",
-});
+import { downloadActiveResume } from "@/lib/resume";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -48,12 +42,12 @@ export default function Footer() {
     { name: "Skills", href: "#skills" },
     { name: "About", href: "#about-me" },
     { name: "Contact", href: "#contact" },
-    { name: "Resume", href: "/resume.pdf", download: true },
+    { name: "Resume", href: "#resume", download: true },
   ];
 
   return (
     <footer
-      className={`${firaCode.className} border-t border-white/10 py-10 px-4 md:px-8 lg:px-16 bg-[#15171D]/80 text-white mt-16 backdrop-blur-xl`}
+      className="font-fira-code border-t border-white/10 py-10 px-4 md:px-8 lg:px-16 bg-[#15171D]/80 text-white mt-16 backdrop-blur-xl"
     >
       <div className="max-w-7xl mx-auto">
         <div className="glass-card rounded-2xl p-6 sm:p-8 mb-8">
@@ -93,16 +87,26 @@ export default function Footer() {
               </h4>
 
               <div className="grid grid-cols-2 gap-2">
-                {quickLinks.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    download={link.download}
-                    className="text-[#ABB2BF] hover:text-[#C778DD] transition-colors duration-300 text-sm"
-                  >
-                    {link.name}
-                  </a>
-                ))}
+                {quickLinks.map((link) =>
+                  link.download ? (
+                    <button
+                      key={link.name}
+                      type="button"
+                      onClick={downloadActiveResume}
+                      className="text-left text-[#ABB2BF] hover:text-[#C778DD] transition-colors duration-300 text-sm"
+                    >
+                      {link.name}
+                    </button>
+                  ) : (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      className="text-[#ABB2BF] hover:text-[#C778DD] transition-colors duration-300 text-sm"
+                    >
+                      {link.name}
+                    </a>
+                  )
+                )}
               </div>
             </div>
 

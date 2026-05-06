@@ -1,14 +1,10 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Fira_Code } from "next/font/google";
-
-const firaCode = Fira_Code({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-fira-code",
-});
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+  ),
   title: "Sanskar Dhungana | Frontend / Full Stack Developer",
   description:
     "Portfolio of Sanskar Dhungana, a frontend-focused full-stack developer from Nepal building scalable web products with React, Next.js, TypeScript, FastAPI, Node.js, and modern backend systems.",
@@ -38,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={firaCode.variable}>
+    <html lang="en">
       <body className="font-fira-code antialiased">{children}</body>
     </html>
   );
